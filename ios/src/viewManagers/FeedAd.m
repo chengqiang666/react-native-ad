@@ -54,13 +54,13 @@
     slot1.AdType = BUAdSlotAdTypeFeed;
 //    BUSize *imgSize = [BUSize sizeBy:BUProposalSize_Feed690_388];
 //    slot1.imgSize = imgSize;
-    slot1.imgSize = [BUSize sizeBy:BUProposalSize_Feed690_388];
+    slot1.imgSize = [BUSize sizeBy:BUProposalSize_Feed228_150];
     slot1.position = BUAdSlotPositionFeed;
     slot1.isSupportDeepLink = YES;
     
     float floatString = [self._adWidth floatValue];
     
-    CGSize adSize = CGSizeMake(floatString, 150);
+    CGSize adSize = CGSizeMake(floatString, 0);
     if (!self.nativeExpressAdManager) {
         self.nativeExpressAdManager = [[BUNativeExpressAdManager alloc] initWithSlot:slot1 adSize:adSize];
     }
