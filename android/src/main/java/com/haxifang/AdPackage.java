@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 
 import com.facebook.react.uimanager.ViewManager;
 import com.haxifang.ad.AdManager;
+import com.haxifang.ad.BannerAdManage;
 import com.haxifang.ad.DrawFeedViewManager;
 import com.haxifang.ad.FeedAdViewManager;
 import com.haxifang.ad.FullScreenVideo;
@@ -31,7 +32,8 @@ public class AdPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
                 new DrawFeedViewManager(reactContext),
-                new FeedAdViewManager(reactContext)
+                new FeedAdViewManager(reactContext),
+                new BannerAdManage(reactContext)
         );
     }
 }
