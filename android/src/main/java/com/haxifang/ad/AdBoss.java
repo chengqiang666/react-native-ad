@@ -14,6 +14,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
+import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContext;
 
@@ -64,6 +65,10 @@ public class AdBoss {
     public static boolean is_download_idle = false;
     public static boolean is_download_active = false;
     public static boolean is_install = false;
+
+
+
+    public static TTSplashAd splashAd;
 
     /**
      * 准备新的激励(全屏)视频回调

@@ -45,42 +45,44 @@ public class SplashActivity extends Activity implements WeakHandler.IHandler {
 
     private String code_id;
 
-    // 注册监听方法
-    private static void sendEvent(String eventName, WritableMap params) {
+    // 发送事件到RN
+    public static void sendEvent(String eventName, @Nullable WritableMap params) {
         AdManager.reactAppContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+                .emit(TAG + "-" + eventName, params);
+    }
+
+    // 二次封装发送到RN的事件函数
+    public static void fireEvent(String eventName, int startCode, String message) {
+        WritableMap p = Arguments.createMap();
+        p.putInt("code", startCode);
+        p.putString("message", message);
+        sendEvent(eventName, p);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mSplashContainer = this.findViewById(R.id.splash_container);
+
 
         // 读取 code id
         Bundle extras = getIntent().getExtras();
-        code_id = extras.getString("codeid");
+        code_id = extras.getString("codeId");
 
         // 初始化广告 SDK
         mTTAdNative = AdBoss.TTAdSdk;
 
-        // 在合适的时机申请权限，如read_phone_state,防止获取不了 imei 时候，下载类广告没有填充的问题
-        // 在开屏时候申请不太合适，因为该页面倒计时结束或者请求超时会跳转，在该页面申请权限，体验不好
-        // TTAdManagerHolder.getInstance(this).requestPermissionIfNecessary(this);
-
-        // 定时，AD_TIME_OUT时间到时执行，如果开屏广告没有加载则跳转到主页面
-        mHandler.sendEmptyMessageDelayed(MSG_GO_MAIN, AD_TIME_OUT);
-
-        // 初始化自定义广告 View
-        initView();
-
         // 加载开屏广告
-        loadSplashAd();
+//        loadSplashAd();
+
+        showSplashAd();
     }
 
     // 初始化开屏广告 View
     private void initView() {
         // 初始化广告渲染组件
-        mSplashContainer = this.findViewById(R.id.splash_container);
+
 
 //        // 设置软件底部 icon，title
 //        try {
@@ -239,6 +241,53 @@ public class SplashActivity extends Activity implements WeakHandler.IHandler {
         }, AD_TIME_OUT);
 
 
+    }
+
+    private void showSplashAd() {
+        TTSplashAd splashAd = AdBoss.splashAd;
+        if (splashAd == null) {
+            fireEvent("onAdError", 400, "广告未加载");
+        }
+
+        // 获取SplashView
+        assert splashAd != null;
+
+        View view = splashAd.getSplashView();
+        mSplashContainer.removeAllViews();
+
+        // 把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕宽
+        mSplashContainer.addView(view);
+
+        // 设置SplashView的交互监听器
+        splashAd.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
+
+            @Override
+            public void onAdClicked(View view, int type) {
+                Log.d(TAG, "onAdClick");
+                fireEvent("onAdClick", 0, "true");
+                goToMainActivity();
+            }
+
+            @Override
+            public void onAdShow(View view, int type) {
+                Log.d(TAG, "onAdShow");
+                fireEvent("onAdShow", 0, "true");
+            }
+
+            @Override
+            public void onAdSkip() {
+                Log.d(TAG, "onAdSkip");
+                fireEvent("onAdSkip", 0, "true");
+                goToMainActivity();
+            }
+
+            @Override
+            public void onAdTimeOver() {
+                Log.d(TAG, "onAdTimeOver");
+                fireEvent("onAdClose", 0, "开屏广告倒计时结束");
+                goToMainActivity();
+            }
+        });
     }
 
     // 关闭开屏广告方法

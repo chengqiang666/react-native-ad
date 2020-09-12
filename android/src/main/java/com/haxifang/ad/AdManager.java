@@ -218,4 +218,9 @@ public class AdManager extends ReactContextBaseJavaModule {
         });
     }
 
+
+    @ReactMethod
+    public void loadSplashAd(ReadableMap options, final Promise promise) {
+        String codeId = options.getString("codeId");
+    }
 }

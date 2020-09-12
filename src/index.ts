@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules,NativeEventEmitter } from 'react-native';
 
 import startSplash from './Splash';
 import startFullVideo from './FullScreenVideo';
@@ -6,7 +6,7 @@ import startRewardVideo from './RewardVideo';
 import DrawFeed from './DrawFeed';
 import Feed from './Feed';
 
-const { AdManager } = NativeModules;
+const { AdManager,SplashAd } = NativeModules;
 
 type appInfo = {
     appid: string;
@@ -42,6 +42,25 @@ export const loadRewardAd = (info: adInfo) => {
     return AdManager.loadRewardAd(info);
 };
 
+const listenerLoadCache = {};
+export const initSplashAd = (info: adInfo) => {
+    console.log(info);
+    const eventEmitter = new NativeEventEmitter(SplashAd);
+    SplashAd.initSplashAd(info);
+    const subscribe = (type, callback) => {
+        if (listenerLoadCache[type]) {
+            listenerLoadCache[type].remove();
+        }
+        return (listenerLoadCache[type] = eventEmitter.addListener('SplashAd-' + type, (event: any) => {
+            callback(event);
+        }));
+    };
+
+    return {
+        subscribe,
+    };
+};
+
 export default {
     init,
     loadFeedAd,
@@ -50,5 +69,6 @@ export default {
     startRewardVideo,
     DrawFeed,
     Feed,
-    loadRewardAd
+    loadRewardAd,
+    initSplashAd
 };
