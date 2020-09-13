@@ -2,6 +2,7 @@ package com.haxifang.ad.views;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
@@ -31,7 +32,7 @@ public class BannerAdView extends RelativeLayout {
     private String _codeId;
     private int _adWidth;
 
-    final protected RelativeLayout relativeLayout;
+    final protected FrameLayout relativeLayout;
 
     private long startTime = 0;
 
@@ -91,9 +92,9 @@ public class BannerAdView extends RelativeLayout {
                     return;
                 }
                 TTNativeExpressAd ad = ads.get(0);
-                ad.setSlideIntervalTime(30 * 1000);
+//                ad.setSlideIntervalTime(30 * 1000);
                 bindAdListener(ad);
-                startTime = System.currentTimeMillis();
+//                startTime = System.currentTimeMillis();
                 ad.render();
             }
         });
