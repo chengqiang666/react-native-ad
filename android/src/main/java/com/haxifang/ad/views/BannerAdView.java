@@ -72,8 +72,8 @@ public class BannerAdView extends RelativeLayout {
                 .setCodeId(_codeId) //广告位id
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(_adWidth, 0) //期望个性化模板广告view的size,单位dp
-                .setImageAcceptedSize(600, 300)//这个参数设置即可，不影响个性化模板广告的size
+                .setExpressViewAcceptedSize(_adWidth, 60) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(600, 90)//这个参数设置即可，不影响个性化模板广告的size
                 .build();
 
         final BannerAdView _this = this;
