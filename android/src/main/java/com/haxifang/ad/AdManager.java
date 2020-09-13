@@ -176,6 +176,7 @@ public class AdManager extends ReactContextBaseJavaModule {
                 .setCodeId(codeId)
                 .setSupportDeepLink(true)
                 .setImageAcceptedSize(1080, 1920)
+                .setExpressViewAcceptedSize(1080, 1920)
                 .setRewardName(AdBoss.rewardName) // 奖励的名称
                 .setRewardAmount(AdBoss.rewardAmount) // 奖励的数量
                 .setUserID(userId)// 用户id,必传参数
