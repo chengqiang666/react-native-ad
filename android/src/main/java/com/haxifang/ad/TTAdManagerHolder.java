@@ -1,6 +1,7 @@
 package com.haxifang.ad;
 
 import android.content.Context;
+
 import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
@@ -44,8 +45,14 @@ public class TTAdManagerHolder {
                 .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
                 .allowShowNotify(true) //是否允许sdk展示通知栏提示
                 .allowShowPageWhenScreenLock(true) //是否在锁屏场景支持展示广告落地页
-                .debug(true) //测试阶段打开，可以通过日志排查问题，上线时去除该调用
-                .directDownloadNetworkType(TTAdConstant.NETWORK_STATE_WIFI, TTAdConstant.NETWORK_STATE_3G) //允许直接下载的网络状态集合
+                .debug(false) //测试阶段打开，可以通过日志排查问题，上线时去除该调用
+                .directDownloadNetworkType(
+                        TTAdConstant.NETWORK_STATE_MOBILE,
+                        TTAdConstant.NETWORK_STATE_WIFI,
+                        TTAdConstant.NETWORK_STATE_3G,
+                        TTAdConstant.NETWORK_STATE_4G,
+                        TTAdConstant.NETWORK_STATE_2G
+                ) //允许直接下载的网络状态集合
                 .supportMultiProcess(false)
                 .build();
     }
